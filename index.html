@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#047857" />
+  <meta name="description" content="Portal Supervisi dan Penilaian Kompetensi Guru (PKG) Terpadu Yayasan Umi Kulsum Banjaran v1.0.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="PKG YUMIK" />
+  <title>Portal Supervisi &amp; PKG Terpadu | Yayasan Umi Kulsum Banjaran v1.0.0</title>
+
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="apple-touch-icon" href="/icon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #f8fafc;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .app-frame {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .boot-fallback {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+      text-align: center;
+      background: #f8fafc;
+      color: #0f172a;
+      z-index: 10;
+    }
+
+    .boot-fallback.hidden {
+      display: none;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #cbd5e1;
+      border-top-color: #047857;
+      border-radius: 9999px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="bootFallback" class="boot-fallback">
+    <div class="spinner"></div>
+    <strong style="font-size:15px;">Portal Supervisi &amp; PKG Terpadu</strong>
+    <span style="font-size:12px;color:#475569;">Yayasan Umi Kulsum Banjaran &bull; v1.0.0</span>
+    <span id="configWarning" style="display:none;max-width:420px;font-size:12px;color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;padding:10px 14px;border-radius:10px;"></span>
+  </div>
+
+  <iframe id="gasAppFrame" class="app-frame" title="Portal Supervisi dan PKG Terpadu Yayasan Umi Kulsum Banjaran"
+    allow="clipboard-read; clipboard-write"></iframe>
+
+  <script>
+    // Replace with your deployed Google Apps Script Web App URL (ending in /exec)
+    const GAS_EXEC_URL = 'https://script.google.com/macros/s/AKfycbxfOf-cLRfPW5-dL6Y_Q58XbnYc0QpoMn1wg17RLGd8SRq_HaX8FsPbXfRLEqLSgUl-/exec';
+
+    (function initWrapper() {
+      const frame = document.getElementById('gasAppFrame');
+      const fallback = document.getElementById('bootFallback');
+      const warning = document.getElementById('configWarning');
+
+      if (!GAS_EXEC_URL || GAS_EXEC_URL.indexOf('REPLACE_WITH_') === 0) {
+        warning.style.display = 'block';
+        warning.innerHTML = 'Konfigurasi <code>GAS_EXEC_URL</code> pada <code>vercel-wrapper/index.html</code> belum diisi dengan URL Web App Google Apps Script (<code>/exec</code>).';
+        return;
+      }
+
+      frame.addEventListener('load', function() {
+        fallback.classList.add('hidden');
+      });
+      frame.src = GAS_EXEC_URL;
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function() {});
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

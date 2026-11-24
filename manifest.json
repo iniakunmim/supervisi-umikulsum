@@ -1,0 +1,19 @@
+{
+  "name": "Portal Supervisi & PKG Terpadu Yayasan Umi Kulsum Banjaran",
+  "short_name": "PKG YUMIK",
+  "description": "Portal Supervisi Pembelajaran, PKG 4 Kompetensi, dan Penilaian 360 Derajat Yayasan Umi Kulsum Banjaran v1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#047857",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
